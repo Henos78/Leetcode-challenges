@@ -1,23 +1,18 @@
 class Solution:
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
-        
-        #Idea from the discussion using dfs
-        
-        res = []
-        stack = [(0, [0])]
+        #Using dfs
         n = len(graph)-1
+        ans = []
         
-        while stack:
-            cur, route = stack.pop()
-            if cur == n:
-                res.append(route)
-            else:
-                for node in graph[cur]:
-                    stack.append((node, route + [node]))
-                    
-        return res
+        def dfs (node, curPath):
+            curPath.append(node)
+            if node == n:
+                ans.append(curPath.copy())
+                
+            for child in graph[node]:
+                dfs(child, curPath)
+                curPath.pop()
+                
+        dfs(0,[])
+        return ans
             
-        
-        
-        
-        
