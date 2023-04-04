@@ -1,11 +1,17 @@
 class Solution:
     def thirdMax(self, nums: List[int]) -> int:
+        #Heap solution 
         num1 = set(nums)
         num2 = list(map(int, num1))
-        num2.sort()
+        
         if len(num2) < 3:
             return max(num2)
-        return num2[len(num2)-3]
+        heap = num2
+        heapq.heapify(num2)
+        while len(heap) > 3:
+            heapq.heappop(heap)
+            
+        return heap[0]
         
         
         
