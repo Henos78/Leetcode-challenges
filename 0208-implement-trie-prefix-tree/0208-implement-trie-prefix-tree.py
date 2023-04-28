@@ -1,6 +1,7 @@
+# Here we are using an array to build our trie tree
 class TrieNode:
     def __init__(self):
-        self.children = {}
+        self.children = [None]*26
         self.end = False
 
 class Trie:
@@ -13,19 +14,22 @@ class Trie:
         cur = self.root
         
         for ch in word:
-            if ch not in cur.children:
-                cur.children[ch] = TrieNode()
-            cur = cur.children[ch]
-        cur.end = True
+            i = ord(ch)-ord("a")
         
+            if cur.children[i] == None: 
+                cur.children[i] = TrieNode()
+            cur = cur.children[i]
+        
+        cur.end = True  
 
     def search(self, word: str) -> bool:
         cur = self.root
         
         for ch in word:
-            if ch not in cur.children:
+            i = ord(ch)-ord("a")
+            if cur.children[i]== None:
                 return False
-            cur = cur.children[ch]
+            cur = cur.children[i]
         return cur.end
         
 
@@ -33,9 +37,10 @@ class Trie:
         cur = self.root
         
         for ch in prefix:
-            if ch not in cur.children:
+            i = ord(ch)-ord("a")
+            if cur.children[i]==None:
                 return False
-            cur = cur.children[ch]
+            cur = cur.children[i]
         return True
         
 
