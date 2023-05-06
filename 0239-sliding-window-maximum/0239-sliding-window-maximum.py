@@ -1,27 +1,21 @@
 class Solution:
     def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
-        #solution using monotonitc queue
-        res= []
-        que = deque()
+        #solution 2 using heap
+        heap = [(-nums[i], i) for i in range(k)]
+        heapq.heapify(heap)
         
-        l =r=0
+        res = [-heap[0][0]]
         
-        while r <len(nums):
-            while que and nums[que[-1]] < nums[r]:
-                que.pop()
-            que.append(r)
+        
+        for i in range(k, len(nums)):
+            heapq.heappush(heap, (-nums[i], i))
+            while heap and heap[0][1] <= i-k:
+                heapq.heappop(heap)
             
-            #to remove the left value from window
-            if l > que[0]:
-                que.popleft()
-            
-            if r +1 >=k:
-                res.append(nums[que[0]])
-                l +=1
-                
-            r+= 1
-            
+            res.append(-heap[0][0])
+        
         return res
+        
         
         
         
