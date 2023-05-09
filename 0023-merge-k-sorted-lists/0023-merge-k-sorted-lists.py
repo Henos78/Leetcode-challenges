@@ -5,48 +5,25 @@
 #         self.next = next
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        # overall time complexity is nlogk
+        # solution using heap
         
-        #edge case
         if not lists or len(lists) ==0:
             return None
         
-        while len(lists)>1:
-            mlist = []
-            
-            #we will megere a pair of lists
-            for i in range(0,len(lists), 2):
-                l1 = lists[i]
-                l2 = lists[i+1] if (i+1) < len(lists) else None
-                mlist.append(self.merge(l1,l2))
+        heap = []
+        for i, node in enumerate(lists):
+            if node:
+                heapq.heappush(heap,(node.val,i,node))
                 
-            lists = mlist
-        return lists[0]
-        
-        # simply merge sort for linked lists
-    def merge(self, l1,l2):
         dummy = ListNode()
-        head = dummy
+        cur = dummy
         
-        while l1 and l2:
-            if l1.val <l2.val:
-                head.next =l1
-                l1 =l1.next
-                
-            else:
-                head.next = l2
-                l2 =l2.next
-                
-            head = head.next 
+        while heap:
+            val, i, node = heapq.heappop(heap)
+            cur.next = node
+            cur= cur.next
             
-        if l1:
-            head.next =l1
-        if l2:
-            head.next = l2
+            if node.next:
+                heapq.heappush(heap,(node.next.val,i,node.next))
+                
         return dummy.next
-                
-        
-            
-            
-            
-        
