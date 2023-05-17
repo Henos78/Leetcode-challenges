@@ -1,7 +1,13 @@
 class Solution:
     def findComplement(self, num: int) -> int:
-        bnum = bin(num)[2:]
-        change = "".join(['0' if b == '1' else '1' for b in bnum])
-        return int(change,2)
-        
-        
+        # using purely bits
+        res = 0
+        i = 0 #idx
+        while num:
+            if num &1 == 0:
+                 res |= 1 << i
+
+            num >>= 1
+            i+=1
+            
+        return res
