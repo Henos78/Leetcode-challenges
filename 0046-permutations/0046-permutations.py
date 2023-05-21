@@ -1,21 +1,22 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        # using recursion /Backtracking solution 
+        # using bit
+    
+        res = []
+        seen = 0
         
-        res= []
+        #temp variable to store or permuutation subsets
+        def helper(res,seen,temp):
+            if len(temp) == len(nums):
+                res.append(temp)
+                
+            for i in range(len(nums)):
+                if not seen &(1<<i):
+                    seen |= (1 << i)
+                    helper(res,seen,temp+[nums[i]])
+                    seen ^= (1 << i)
+
+        helper(res,seen,[])
         
-        #basecase
-        if len(nums)==1:
-            return [nums[:]] # or we can use [nums.copy()]
-
-        for i in range(len(nums)):
-            temp = nums.pop(0)
-            perm = self.permute(nums)
-
-            for per in perm:
-                per.append(temp)
-            res.extend(perm)
-            nums.append(temp)
-
         return res
-            
+        
