@@ -1,22 +1,32 @@
 class Solution:
     def getSum(self, a: int, b: int) -> int:
+       #neetcode solution
+        def add(a, b):
+            if not a or not b:
+                return a or b
+            return add(a ^ b, (a & b) << 1)
+
+        if a * b < 0:  # assume a < 0, b > 0
+            if a > 0:
+                return self.getSum(b, a)
+            if add(~a, 1) == b:  # -a == b
+                return 0
+            if add(~a, 1) < b:  # -a < b
+                return add(~add(add(~a, 1), add(~b, 1)), 1)  # -add(-a, -b)
+
+        return add(a, b)
+        
+        
+        
+        
+        
+        """
          # sum is obtained by getin the XOR adding a carry bit that is obtained by performing the AND (&) operation.
-        #. not my solution must do it again!!
-        mask = 0xFFFFFFFF
         
-        while b:
-            a, b = (a ^ b) & mask, ((a & b) << 1) & mask
-        
-        return a if a <= 0x7FFFFFFF else ~(a ^ mask)
-
-
-        
-        """ 
-        while b:
-            carry = a&b
-            a = a ^b
-            b = carry << 1
-            
+        #works for positive integers not for the summation of negative and positive 
+        while b !=0:
+            carry = (a&b) <<1
+            a = a^b
+            b = carry
         return a
-        
-        got TLE solution for the input -1, 1"""
+         """
