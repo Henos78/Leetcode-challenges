@@ -5,19 +5,18 @@
 #         self.next = next
 class Solution:
     def getDecimalValue(self, head: ListNode) -> int:
+        #using bit o(1) space compelxity
+        res = ""
+        cur = head
+        while cur:
+            res += str(cur.val)
+            cur = cur.next
         
-        def changeArr(head):
-            arr = []
-            cur= head
-            
-            while cur:
-                arr.append(cur.val)
-                cur = cur.next
-            return arr
+        num =0
+        for i in res:
+            num = num << 1
+            if i == '1':
+                num |=1
+        return num
+
         
-        temp = changeArr(head)
-        res=""
-        for i in temp:
-            res += str(i)
-            
-        return int(res,2)
