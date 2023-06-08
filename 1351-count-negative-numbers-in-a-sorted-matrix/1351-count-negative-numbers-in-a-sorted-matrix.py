@@ -1,11 +1,21 @@
 class Solution:
     def countNegatives(self, grid: List[List[int]]) -> int:
-        res =0
+        #follow up
+        m, n = len(grid), len(grid[0])
+        row, col = m-1,0
+        res = 0
         
-        for gri in grid:
-            for i in range(len(gri)):
-                if gri[i] <0:
-                    res +=1
+        while row >=0 and col<n:
+            if grid[row][col] <0:
+                res += (n-col)
+                row -=1
+            else:
+                col +=1
         return res
-    # o(n^2)
+        
+        
+        
+        
+        
+        
         
