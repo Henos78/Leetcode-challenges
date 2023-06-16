@@ -1,18 +1,16 @@
 class Solution:
     def minimumTotal(self, triangle: List[List[int]]) -> int:
-        n = len(triangle)
-        @lru_cache
-        def helper(i,j):
-            # i-row and j - col
-            if n-1 == i:
-                return triangle[i][j]
-
-            p1 = helper(i+1,j)
-            p2 = helper(i+1,j+1)
+        # using bottom up appraoh
+        dp = [triangle[0][0]] * len(triangle)
+        
+        for i in range(1, len(triangle)):
+            triangle[i][i] += triangle[i-1][i-1]
+            triangle[i][0] += triangle[i-1][0]
             
-            t1 = triangle[i][j] + p1
-            t2 = triangle[i][j] + p2
-
-            return min(t1, t2)
-
-        return helper(0,0)
+            for j in range(1, i):
+                triangle[i][j] += min(triangle[i-1][j], triangle[i-1][j-1])
+                
+                
+        res = min(triangle[-1])
+        return res
+        
